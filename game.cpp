@@ -12,22 +12,6 @@ namespace Tmpl8
 	
 	SnakeGame snakeGame;
 
-	void Game::KeyDown(int key) {
-		//W: 26
-		//A: 4
-		//S: 22
-		//D: 7
-		//arrU: 82
-		//arrL: 80
-		//arrD: 81
-		//arrR: 79
-		std::cout << "pressed: " << key << "\n";
-		if (key == 26 || key == 82) { snakeGame.snake.ChangeDir(0); }
-		if (key == 7 || key == 79) { snakeGame.snake.ChangeDir(1); }
-		if (key == 22 || key == 81) { snakeGame.snake.ChangeDir(2); }
-		if (key == 4 || key == 80) { snakeGame.snake.ChangeDir(3); }
-	}
-
 	void Game::Init() {
 		nextFrame += snakeGame.snakeSpeed * 1000;
 		snakeGame.Init(screen);
@@ -39,8 +23,9 @@ namespace Tmpl8
 		totalTime += deltaTime;
 		screen->Clear(0);
 		
-
 		//game input
+		snakeGame.checkForInput();
+
 		//snake step
 		if (totalTime >= nextFrame) {
 			snakeGame.snake.Move(snakeGame.tileSize);

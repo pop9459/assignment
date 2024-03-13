@@ -2,6 +2,7 @@
 #include "surface.h"
 #include <iostream>
 #include <vector>
+#include <windows.h>
 
 namespace Tmpl8
 {
@@ -132,6 +133,12 @@ namespace Tmpl8
 			gridPosX = (gameScreen->GetWidth() / 2) - ((tileSize * gridSize) / 2);
 			gridPosY = 10;
 			snake.Init(gridSize, gridPosX, gridPosY);
+		}
+		void checkForInput() {
+			if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState(0x57)) snake.ChangeDir(0);;
+			if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState(0x44)) snake.ChangeDir(1);;
+			if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState(0x53)) snake.ChangeDir(2);;
+			if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState(0x41)) snake.ChangeDir(3);;
 		}
 		void DrawPlayArea() {
 			int wallThickness = 10;
