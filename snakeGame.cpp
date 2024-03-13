@@ -2,13 +2,14 @@
 #include "surface.h"
 #include <iostream>
 #include <vector>
+#include <random>
 #include <windows.h>
+#include "renderer.cpp"
 
 namespace Tmpl8
 {
-	static Sprite ball(new Surface("assets/ball.png"), 1);
+	Renderer renderer;
 
-	// Custom
 	class SnakePart {
 	public:
 		bool head;
@@ -19,19 +20,18 @@ namespace Tmpl8
 			head = isHead;
 		}
 		
-		void Draw(Surface* gameScreen, int tilesize, int gridPosX, int gridPosY) {
-			//ball.Draw(gameScreen, pos_x * tilesize, pos_y * tilesize);
-			gameScreen->Box((pos_x * tilesize) + gridPosX,
-							(pos_y * tilesize) + gridPosY,
-							(pos_x * tilesize + tilesize) + gridPosX,
-							(pos_y * tilesize + tilesize) + gridPosY,
-							0x00ff00);
+		void Draw(Surface* gameScreen, int tilesize, int gridPosX, int gridPosY, int dir) {
 			if (head) {
-				gameScreen->Box((pos_x * tilesize) + gridPosX + 5,
-					(pos_y * tilesize) + gridPosY + 5,
-					(pos_x * tilesize + tilesize) + gridPosX - 5,
-					(pos_y * tilesize + tilesize) + gridPosY - 5,
-					0x00ff00);
+				int headTile = 0;
+				if (dir == 0) { headTile = 1; }
+				if (dir == 1) { headTile = 4; }
+				if (dir == 2) { headTile = 3; }
+				if (dir == 3) { headTile = 2; }
+				renderer.DrawTile((pos_x * tilesize) + gridPosX, (pos_y * tilesize) + gridPosY, gameScreen, headTile, 3);
+			}
+			else
+			{
+				renderer.DrawTile((pos_x * tilesize) + gridPosX, (pos_y * tilesize) + gridPosY, gameScreen, 5, 3);
 			}
 		}
 	};
@@ -60,6 +60,10 @@ namespace Tmpl8
 			}
 			body[0].head = true;
 		}
+		void growBody() {
+			length++;
+			body.push_back(SnakePart(body[body.size()-1].pos_x, body[body.size()-1].pos_y));
+		}
 		void Draw(Surface* gameScreen, int tilesize) {
 			for (int i = 0; i < body.size(); i++) {
 				//dont draw snake if outside of playArea
@@ -67,7 +71,7 @@ namespace Tmpl8
 					body[i].pos_x >= gridSize || body[i].pos_y >= gridSize) {
 					continue;
 				}
-				body[i].Draw(gameScreen, tilesize, gridPosX, gridPosY);
+				body[i].Draw(gameScreen, tilesize, gridPosX, gridPosY, dir);
 			}
 		}
 		void Move(int stepSize) {
@@ -112,8 +116,20 @@ namespace Tmpl8
 	class Cherry
 	{
 	public:
-		Cherry() {
-			//TODO
+		int posX, posY;
+		Cherry() {}
+		void newCherry(int gridSize) {
+			std::random_device rd;
+			std::mt19937 gen(rd());
+
+			std::uniform_int_distribution<int> dist(0, gridSize-1);
+
+			// Generate new pos
+			posX = dist(gen);
+			posY = dist(gen);
+		}
+		void draw(int tileSize, int gridPosX, int gridPosY, Surface* gameScreen) {
+			renderer.DrawTile(posX * tileSize + gridPosX, posY * tileSize + gridPosY, gameScreen, 6, 3);
 		}
 	};
 
@@ -122,17 +138,19 @@ namespace Tmpl8
 		int gridSize, tileSize, gridPosX, gridPosY;
 		float snakeSpeed;
 		Snake snake;
+		Cherry cherry;
 		Surface* gameScreen;
 		SnakeGame() {
 			snakeSpeed = 0.5f; //seconds per step
-			gridSize = 22;
-			tileSize = 20;
+			gridSize = 10;
+			tileSize = 32;
 		}
 		void Init(Surface* surface ) {
 			gameScreen = surface;
 			gridPosX = (gameScreen->GetWidth() / 2) - ((tileSize * gridSize) / 2);
 			gridPosY = 10;
 			snake.Init(gridSize, gridPosX, gridPosY);
+			cherry.newCherry(gridSize);
 		}
 		void checkForInput() {
 			if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState(0x57)) snake.ChangeDir(0);;
@@ -163,6 +181,15 @@ namespace Tmpl8
 			}
 			//snake is alive
 			return true;
+		}
+		bool snakeOnCherry() {
+			if (snake.pos_x == cherry.posX && snake.pos_y == cherry.posY) {
+				snake.growBody();
+				snake.Draw(gameScreen, tileSize);
+				cherry.newCherry(gridSize);
+				return true;
+			}
+			return false;
 		}
 	};
 };

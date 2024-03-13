@@ -11,8 +11,8 @@
       "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|C:\\Users\\pop\\Documents\\programing\\assignment\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{D8FE2186-4BF0-4B89-913F-6C26818E5AC5}|tmpl_2019-08.vcxproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\pop\\Documents\\programing\\assignment\\renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:renderer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,28 +22,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": ".gitignore",
-              "DocumentMoniker": "C:\\Users\\pop\\Documents\\programing\\assignment\\.gitignore",
-              "RelativeDocumentMoniker": ".gitignore",
-              "ToolTip": "C:\\Users\\pop\\Documents\\programing\\assignment\\.gitignore",
-              "RelativeToolTip": ".gitignore",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-03-13T16:19:57.189Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -53,9 +36,22 @@
               "RelativeDocumentMoniker": "snakeGame.cpp",
               "ToolTip": "C:\\Users\\pop\\Documents\\programing\\assignment\\snakeGame.cpp*",
               "RelativeToolTip": "snakeGame.cpp*",
-              "ViewState": "AQIAAHUAAAAAAAAAAAAAAIoAAAA6AAAA",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAAEAAAABQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-12T15:37:14.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "renderer.cpp",
+              "DocumentMoniker": "C:\\Users\\pop\\Documents\\programing\\assignment\\renderer.cpp",
+              "RelativeDocumentMoniker": "renderer.cpp",
+              "ToolTip": "C:\\Users\\pop\\Documents\\programing\\assignment\\renderer.cpp",
+              "RelativeToolTip": "renderer.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-03-13T22:13:53.551Z",
               "EditorCaption": ""
             },
             {
@@ -66,7 +62,7 @@
               "RelativeDocumentMoniker": "game.cpp",
               "ToolTip": "C:\\Users\\pop\\Documents\\programing\\assignment\\game.cpp",
               "RelativeToolTip": "game.cpp",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAACoAAAAcAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAACAAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-05T18:47:18.382Z",
               "EditorCaption": ""

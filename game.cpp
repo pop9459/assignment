@@ -21,24 +21,24 @@ namespace Tmpl8
 	//MAIN
 	void Game::Tick(float deltaTime) {
 		totalTime += deltaTime;
-		screen->Clear(0);
 		
 		//game input
 		snakeGame.checkForInput();
 
 		//snake step
 		if (totalTime >= nextFrame) {
+			screen->Clear(0); //todo optimize drawing times
 			snakeGame.snake.Move(snakeGame.tileSize);
 			nextFrame += snakeGame.snakeSpeed * 1000;
+			snakeGame.snakeOnCherry();
 			if (!snakeGame.SnakeAlive()) {
 				std::cout << "dead\n";
 				snakeGame.Init(screen);
 			}
+			snakeGame.snake.Draw(screen, snakeGame.tileSize);
+			snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY, screen);
+			//draw play area
+			snakeGame.DrawPlayArea();
 		}
-		snakeGame.snake.Draw(screen, snakeGame.tileSize);
-
-		//draw play area
-		snakeGame.DrawPlayArea();
-		//test
 	}
 };	
