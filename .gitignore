@@ -1,5 +1,6 @@
-!/lib
-.vs
+!lib
+/.vs/
+/Debug/
 
 # Prerequisites
 *.d
