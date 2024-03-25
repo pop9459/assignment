@@ -1,36 +1,48 @@
-!lib
-/.vs/
-/Debug/
-
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
+*.cdf
+*.cache
 *.obj
-
-# Precompiled Headers
-*.gch
+*.obj.enc
+*.ipdb
+*.iobj
+*.resources
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.rsp
+*.pgc
+*.pgd
+*.meta
+*.tlog
+*.manifest
+*.res
 *.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+*.idb
+*.rep
+*.xdc
+*_manifest.rc
+*.sbr
+*.metagen
+*.ncb
+*.ilk
 *.lib
-
-# Executables
+*.sdf
+*.exp
+*.map
+*.pdb
+*.lastcodeanalysissucceeded
+Upgradelog.xml
 *.exe
-*.out
-*.app
+*.bsc
+applog.txt
+*.suo /AH
+*.user
+*.o
+*.VC.db
+tinybvh.exe
+ipch /S /Q
+x64\release\template.tlog
+release /S /Q
+debug /S /Q
+x64 /S /Q
+.vs /S /Q
