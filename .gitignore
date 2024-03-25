@@ -38,13 +38,11 @@
 *.o
 *.VC.db
 
-Upgradelog.xml
-applog.txt
 tinybvh.exe
-x64\release\template.tlog
+applog.txt
+Upgradelog.xml
 
 ipch/
-x64/
 
 # Build results
 [Dd]ebug/
