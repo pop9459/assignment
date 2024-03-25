@@ -44,9 +44,6 @@ tinybvh.exe
 x64\release\template.tlog
 
 ipch/
-release/
-debug/
-Debug/
 x64/
 
 # Build results
