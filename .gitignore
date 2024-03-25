@@ -31,18 +31,35 @@
 *.map
 *.pdb
 *.lastcodeanalysissucceeded
-Upgradelog.xml
 *.exe
 *.bsc
-applog.txt
-*.suo /AH
+*.suo
 *.user
 *.o
 *.VC.db
+
+Upgradelog.xml
+applog.txt
 tinybvh.exe
-ipch /S /Q
 x64\release\template.tlog
-release /S /Q
-debug /S /Q
-x64 /S /Q
-.vs /S /Q
+
+ipch/
+release/
+debug/
+Debug/
+x64/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio 2015 cache/options directory
+.vs/
