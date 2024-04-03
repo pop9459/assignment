@@ -1,10 +1,15 @@
 #include "game.h"
 #include "surface.h"
 #include <iostream>
+#include <string>
 #include <vector>
 #include <random>
 #include <windows.h>
 #include "renderer.cpp"
+
+#include <iostream>
+#include <format>
+
 
 namespace Tmpl8
 {
@@ -165,15 +170,22 @@ namespace Tmpl8
 			{
 				gameScreen->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i, gridPosY + (tileSize * gridSize) + i, 0xff0000);
 			}
+
+			//print score
+			char scoreBuffer[20]; // Allocate a buffer for the character array
+
+			// Format the integer into the character buffer
+			std::sprintf(scoreBuffer, "%d", snake.length);
+			gameScreen->PrintScaled(scoreBuffer, 5, 50, 0xffffff, 4);
 		}
-		bool SnakeAlive() {
+		bool SnakeAlive() {	
 			//is snake out of bounds?
 			if (snake.pos_x < 0 || snake.pos_y < 0 ||
 				snake.pos_x >= gridSize || snake.pos_y >= gridSize) {
 				return false;
 			}
 			//is snake hitting itself?
-			for each (SnakePart part in snake.body)
+			for (SnakePart part : snake.body)
 			{
 				if (part.head == false && snake.pos_x == part.pos_x && snake.pos_y == part.pos_y) { 
 					return false; 
