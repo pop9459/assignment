@@ -7,10 +7,6 @@
 #include <windows.h>
 #include "renderer.cpp"
 
-#include <iostream>
-#include <format>
-
-
 namespace Tmpl8
 {
 	Renderer renderer;
@@ -123,15 +119,33 @@ namespace Tmpl8
 	public:
 		int posX, posY;
 		Cherry() {}
-		void newCherry(int gridSize) {
+		void newCherry(int gridSize, std::vector<SnakePart> snakeBody) {
 			std::random_device rd;
 			std::mt19937 gen(rd());
 
-			std::uniform_int_distribution<int> dist(0, gridSize-1);
+			std::vector<int> possibleCords;
+			possibleCords.clear();
 
-			// Generate new pos
-			posX = dist(gen);
-			posY = dist(gen);
+			//determine all emply positions
+			for (int x = 0; x < gridSize; x++) {
+				for (int y = 0; y < gridSize; y++) {
+					bool isEmpty = true;
+					for each (SnakePart part in snakeBody)
+					{
+						if (part.pos_x == x && part.pos_y == y) { isEmpty = false; } //exclude space occupied by snake
+						if (posX == x && posY == y) { isEmpty = false; } //exclude previous pos
+					}
+					if (isEmpty) { possibleCords.push_back((x * 10) + y); } //add pos if empty
+				}
+			}
+
+			//pick a random empty position
+			std::uniform_int_distribution<int> dist(0, possibleCords.size()-1);
+			int position = possibleCords[dist(gen)];
+
+			//assign new values
+			posX = position / 10;
+			posY = position % 10;
 		}
 		void draw(int tileSize, int gridPosX, int gridPosY, Surface* gameScreen) {
 			renderer.DrawTile(posX * tileSize + gridPosX, posY * tileSize + gridPosY, gameScreen, 6, 3);
@@ -155,7 +169,7 @@ namespace Tmpl8
 			gridPosX = (gameScreen->GetWidth() / 2) - ((tileSize * gridSize) / 2);
 			gridPosY = 10;
 			snake.Init(gridSize, gridPosX, gridPosY);
-			cherry.newCherry(gridSize);
+			cherry.newCherry(gridSize, snake.body);
 		}
 		void checkForInput() {
 			if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState(0x57)) snake.ChangeDir(0);;
@@ -198,7 +212,7 @@ namespace Tmpl8
 			if (snake.pos_x == cherry.posX && snake.pos_y == cherry.posY) {
 				snake.growBody();
 				snake.Draw(gameScreen, tileSize);
-				cherry.newCherry(gridSize);
+				cherry.newCherry(gridSize, snake.body);
 				return true;
 			}
 			return false;
