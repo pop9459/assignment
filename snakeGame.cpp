@@ -184,7 +184,7 @@ namespace Tmpl8
 			//walls
 			for (int i = 1; i < wallThickness; i++)
 			{
-				if(i % 3==0) gameScreen->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i, gridPosY + (tileSize * gridSize) + i, 0xff0000);
+				if(i % 3==0) gameScreen->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i - 1, gridPosY + (tileSize * gridSize) + i - 1, 0xff0000);
 			}
 
 			//scorebox
