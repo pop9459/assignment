@@ -154,20 +154,21 @@ namespace Tmpl8
 
 	class SnakeGame {
 	public:
-		int gridSize, tileSize, gridPosX, gridPosY;
+		int gridSize, tileSize, wallThickness, gridPosX, gridPosY;
 		float snakeSpeed;
 		Snake snake;
 		Cherry cherry;
 		Surface* gameScreen;
 		SnakeGame() {
 			snakeSpeed = 0.5f; //seconds per step
-			gridSize = 10;
+			gridSize = 11; //11
 			tileSize = 32;
+			wallThickness = 25;
 		}
 		void Init(Surface* surface ) {
 			gameScreen = surface;
 			gridPosX = (gameScreen->GetWidth() / 2) - ((tileSize * gridSize) / 2);
-			gridPosY = 10;
+			gridPosY = tileSize;
 			snake.Init(gridSize, gridPosX, gridPosY);
 			cherry.newCherry(gridSize, snake.body);
 		}
@@ -178,19 +179,25 @@ namespace Tmpl8
 			if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState(0x41)) snake.ChangeDir(3);;
 		}
 		void DrawPlayArea() {
-			int wallThickness = 10;
-
+			int bottomY = gridPosY + (gridSize * tileSize) + wallThickness;
+			
+			//walls
 			for (int i = 1; i < wallThickness; i++)
 			{
-				gameScreen->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i, gridPosY + (tileSize * gridSize) + i, 0xff0000);
+				if(i % 3==0) gameScreen->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i, gridPosY + (tileSize * gridSize) + i, 0xff0000);
 			}
 
-			//print score
-			char scoreBuffer[20]; // Allocate a buffer for the character array
+			//scorebox
+			int scoreboxHeight = bottomY + wallThickness;
+			for (int i = 0; i < wallThickness/1.5f; i++)
+			{
+				if (i % 3 == 0) gameScreen->Box(gridPosX-i, scoreboxHeight-i, gridPosX + (tileSize * gridSize) + i, bottomY + tileSize*2 + i, 0xffff00);
+			}
 
-			// Format the integer into the character buffer
-			std::sprintf(scoreBuffer, "%d", snake.length);
-			gameScreen->PrintScaled(scoreBuffer, 5, 50, 0xffffff, 4);
+			//print score text
+			char scoreBuffer[20]; // Allocate a buffer for the character array
+			std::sprintf(scoreBuffer, "Score: %d", snake.length-4); // Format the integer into the character buffer
+			gameScreen->PrintScaled(scoreBuffer, gridPosX + 10, scoreboxHeight + 10, 0xffffff, 4); //print score to the screen
 		}
 		bool SnakeAlive() {	
 			//is snake out of bounds?
