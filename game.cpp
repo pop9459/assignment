@@ -7,9 +7,15 @@
 namespace Tmpl8
 {
 	//Initialization
+	static bool showDebugInfo = true; //disable for production release!!!
+	static const bool enableDebugKeys = true; //disable for production release!!!
+	
 	static float nextFrame = 0;
 	static float totalTime = 0;
 	
+	static int gameState = 0; //0-menu //1-game
+	static int laststate = 0; 
+
 	SnakeGame snakeGame;
 
 	void Game::Init() {
@@ -21,25 +27,72 @@ namespace Tmpl8
 
 	//MAIN
 	void Game::Tick(float deltaTime) {
+		//keep track of uptime
 		totalTime += deltaTime;
 		
-		//game input
-		snakeGame.checkForInput();
+		//clear after game state change
+		if (gameState != laststate) {
+			screen->Clear(0);
+			laststate = gameState;
+		}
 
-		//snake step
-		if (totalTime >= nextFrame) {
-			screen->Clear(0); //todo optimize drawing times
-			snakeGame.snake.Move(snakeGame.tileSize);
-			nextFrame += snakeGame.snakeSpeed * 1000;
-			snakeGame.snakeOnCherry();
-			if (!snakeGame.SnakeAlive()) {
-				std::cout << "dead\n";
-				snakeGame.Init();
+		//game logic
+		switch (gameState) 
+		{
+		case 0: //menu
+			char gameStateBuffer[20];
+			std::sprintf(gameStateBuffer, "GameState: %d", gameState);
+			Renderer::GetScreen()->PrintScaled("MENU", screen->GetWidth()/2, 50, 0xffffff, 4);
+			break;
+		case 1: //snage minigame
+			//game input
+			snakeGame.checkForInput();
+
+			//snake step
+			if (totalTime >= nextFrame) {
+				nextFrame += snakeGame.snakeSpeed * 1000;
+				
+				screen->Clear(0); //todo optimize drawing times
+				snakeGame.snake.Move(snakeGame.tileSize);
+				
+				snakeGame.snakeOnCherry();
+				if (!snakeGame.SnakeAlive()) {
+					std::cout << "dead\n";
+					snakeGame.Init();
+				}
+				snakeGame.snake.Draw(snakeGame.tileSize);
+				snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY);
+				
+				snakeGame.DrawPlayArea(); //draw play area
+				std::cout << totalTime/1000 << "\n"; //debug
 			}
-			snakeGame.snake.Draw(snakeGame.tileSize);
-			snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY);
-			//draw play area
-			snakeGame.DrawPlayArea();
+			break;
+		default:
+			std::cout << "Error: Invalid game state!\n";
+			break;
+		}
+
+		//debug utils
+		if (showDebugInfo) {
+			//game state -  what content should be displayed
+			char printBuffer[60]; 
+			Renderer::GetScreen()->PrintScaled("NUM0 - show this info", 5 ,5 , 0xffffff, 2);
+			Renderer::GetScreen()->PrintScaled("NUM1-2 - switch game state", 5, 20, 0xffffff, 2);
+			std::sprintf(printBuffer, "GameState: % d", gameState);
+			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 35, 0xffffff, 2);
+		}
+
+		if (enableDebugKeys) {
+			if (GetAsyncKeyState(VK_NUMPAD0)) { 
+				showDebugInfo = !showDebugInfo; 
+				if (showDebugInfo == false)
+				{
+					screen->Clear(0);
+				}
+				while (GetAsyncKeyState(VK_NUMPAD0)) {} //wait for key unpress
+			}
+			if (GetAsyncKeyState(VK_NUMPAD1)) gameState = 0;
+			if (GetAsyncKeyState(VK_NUMPAD2)) gameState = 1;
 		}
 	}
 };	
