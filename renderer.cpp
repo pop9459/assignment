@@ -26,12 +26,16 @@ namespace Tmpl8
 		}
 
 		static void DrawButton(int screenX, int screenY, std::string buttonText, int size) {
-			int borderThickness = 5;
-			for (int i = 0; i < borderThickness; i++)
+			const int baseCharSize = 5;
+			int border = 5;
+			int padding = 5;
+			int height = baseCharSize * size + padding * 2;
+			int length = (baseCharSize + 1) * size * buttonText.length() + padding * 2;
+			for (int i = 0; i < border; i++)
 			{
-				gameScreen->Box(screenX - i, screenY - i, screenX + 100 + i, screenY + 50 + i, 0xffffff);
+				gameScreen->Box(screenX - i, screenY - i, screenX + length + i, screenY + height + i, 0xffffff);
 			}
-			gameScreen->PrintScaled(buttonText.c_str(), screenX, screenY, 0xffffff, size);
+			gameScreen->PrintScaled(buttonText.c_str(), screenX + padding, screenY + padding, 0xffffff, size);
 		}
 	};
 };
