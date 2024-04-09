@@ -1,11 +1,7 @@
-#include "game.h"
-#include "surface.h"
-#include <iostream>
 #include <string>
 #include <vector>
 #include <random>
 #include <windows.h>
-#include "renderer.cpp"
 
 namespace Tmpl8
 {

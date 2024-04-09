@@ -2,7 +2,10 @@
 #include "surface.h"
 #include <iostream>
 #include <cstdio> //printf
+
+#include "renderer.cpp"
 #include "snakeGame.cpp"
+#include "menuScreen.cpp"
 
 namespace Tmpl8
 {
@@ -17,6 +20,7 @@ namespace Tmpl8
 	static int laststate = 0; 
 
 	SnakeGame snakeGame;
+	MenuScreen menuScreen;
 
 	void Game::Init() {
 		Renderer::SetScreen(screen); //always init first
@@ -40,9 +44,7 @@ namespace Tmpl8
 		switch (gameState) 
 		{
 		case 0: //menu
-			char gameStateBuffer[20];
-			std::sprintf(gameStateBuffer, "GameState: %d", gameState);
-			Renderer::GetScreen()->PrintScaled("MENU", screen->GetWidth()/2, 50, 0xffffff, 4);
+			menuScreen.DrawMenu();
 			break;
 		case 1: //snage minigame
 			//game input
