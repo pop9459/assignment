@@ -76,23 +76,24 @@ namespace Tmpl8
 		if (showDebugInfo) {
 			//game state -  what content should be displayed
 			char printBuffer[60]; 
-			Renderer::GetScreen()->PrintScaled("NUM0 - show this info", 5 ,5 , 0xffffff, 2);
-			Renderer::GetScreen()->PrintScaled("NUM1-2 - switch game state", 5, 20, 0xffffff, 2);
+			Renderer::GetScreen()->PrintScaled("Debug mode - (numbers not on numpad)", 5, 5, 0xffffff, 2);
+			Renderer::GetScreen()->PrintScaled("0 - show this info", 5 ,20 , 0xffffff, 2);
+			Renderer::GetScreen()->PrintScaled("1-2 - switch game state", 5, 35, 0xffffff, 2);
 			std::sprintf(printBuffer, "GameState: % d", gameState);
-			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 35, 0xffffff, 2);
+			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 50, 0xffffff, 2);
 		}
 
 		if (enableDebugKeys) {
-			if (GetAsyncKeyState(VK_NUMPAD0)) { 
+			if (GetAsyncKeyState(0x30)) {
 				showDebugInfo = !showDebugInfo; 
 				if (showDebugInfo == false)
 				{
 					screen->Clear(0);
 				}
-				while (GetAsyncKeyState(VK_NUMPAD0)) {} //wait for key unpress
+				while (GetAsyncKeyState(0x30)) {} //wait for key unpress
 			}
-			if (GetAsyncKeyState(VK_NUMPAD1)) gameState = 0;
-			if (GetAsyncKeyState(VK_NUMPAD2)) gameState = 1;
+			if (GetAsyncKeyState(0x31)) gameState = 0;
+			if (GetAsyncKeyState(0x32)) gameState = 1;
 		}
 	}
 };	
