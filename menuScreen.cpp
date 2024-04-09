@@ -31,12 +31,10 @@ namespace Tmpl8
 			return mouseOn;
 		}
 		void OnMouseEnter() {
-			std::cout << "entered\n";
-			borderColor = 0x0000ff;
+			borderColor = 0x0066ff;
 		}
 		void OnMouseExit() {
-			std::cout << "exit\n";
-			borderColor = 0x000000;
+			borderColor = 0xffffff;
 		}
 	};
 

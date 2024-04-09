@@ -18,6 +18,7 @@ namespace Tmpl8
 	
 	static int mouseX = 0;
 	static int mouseY = 0;
+	static bool lMouseDown = false;
 
 	static int gameState = 0; //0-menu //1-game
 	static int laststate = 0; 
@@ -25,6 +26,7 @@ namespace Tmpl8
 	SnakeGame snakeGame;
 	MenuScreen menuScreen;
 
+	//EVENTS
 	void Game::Init() {
 		Renderer::SetScreen(screen); //always init first
 		menuScreen.Init();
@@ -41,6 +43,12 @@ namespace Tmpl8
 		{
 			menuScreen.buttons[i].MouseOver(mouseX, mouseY);
 		}
+	}
+	void Game::MouseUp(int button) {
+		if (button == VK_LBUTTON) lMouseDown = false;
+	}
+	void Game::MouseDown(int button) {
+		if (button == VK_LBUTTON) lMouseDown = true;
 	}
 
 	//MAIN
@@ -59,7 +67,7 @@ namespace Tmpl8
 		{
 		case 0: //menu
 			menuScreen.DrawMenu();
-
+			if (lMouseDown && menuScreen.buttons[0].mouseOver) gameState = 1;
 			break;
 		case 1: //snage minigame
 			//game input
