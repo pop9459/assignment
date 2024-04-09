@@ -16,6 +16,9 @@ namespace Tmpl8
 	static float nextFrame = 0;
 	static float totalTime = 0;
 	
+	static int mouseX = 0;
+	static int mouseY = 0;
+
 	static int gameState = 0; //0-menu //1-game
 	static int laststate = 0; 
 
@@ -24,10 +27,21 @@ namespace Tmpl8
 
 	void Game::Init() {
 		Renderer::SetScreen(screen); //always init first
-		nextFrame += snakeGame.snakeSpeed * 1000;
+		menuScreen.Init();
 		snakeGame.Init();
+		
+		nextFrame += snakeGame.snakeSpeed * 1000;
 	}
 	void Game::Shutdown() {}
+
+	void Game::MouseMove(int x, int y) { 
+		mouseX += x;
+		mouseY += y; 
+		for(int i = 0; i < menuScreen.buttons.size(); i++)
+		{
+			menuScreen.buttons[i].MouseOver(mouseX, mouseY);
+		}
+	}
 
 	//MAIN
 	void Game::Tick(float deltaTime) {
@@ -45,6 +59,7 @@ namespace Tmpl8
 		{
 		case 0: //menu
 			menuScreen.DrawMenu();
+
 			break;
 		case 1: //snage minigame
 			//game input
@@ -76,13 +91,16 @@ namespace Tmpl8
 
 		//debug utils
 		if (showDebugInfo) {
-			//game state -  what content should be displayed
+			//info
 			char printBuffer[60]; 
 			Renderer::GetScreen()->PrintScaled("Debug mode - (numbers not on numpad)", 5, 5, 0xffffff, 2);
 			Renderer::GetScreen()->PrintScaled("0 - show this info", 5 ,20 , 0xffffff, 2);
 			Renderer::GetScreen()->PrintScaled("1-2 - switch game state", 5, 35, 0xffffff, 2);
+			//game state -  what content should be displayed
 			std::sprintf(printBuffer, "GameState: % d", gameState);
 			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 50, 0xffffff, 2);
+			//mouse pos
+			//std::cout << mouseX << " - " << mouseY << "\n";
 		}
 
 		if (enableDebugKeys) {
