@@ -9,8 +9,6 @@
 
 namespace Tmpl8
 {
-	Renderer renderer;
-
 	class SnakePart {
 	public:
 		bool head;
@@ -28,11 +26,11 @@ namespace Tmpl8
 				if (dir == 1) { headTile = 4; }
 				if (dir == 2) { headTile = 3; }
 				if (dir == 3) { headTile = 2; }
-				renderer.DrawTile((pos_x * tilesize) + gridPosX, (pos_y * tilesize) + gridPosY, gameScreen, headTile, 3);
+				Renderer::DrawTile((pos_x * tilesize) + gridPosX, (pos_y * tilesize) + gridPosY, gameScreen, headTile, 3);
 			}
 			else
 			{
-				renderer.DrawTile((pos_x * tilesize) + gridPosX, (pos_y * tilesize) + gridPosY, gameScreen, 5, 3);
+				Renderer::DrawTile((pos_x * tilesize) + gridPosX, (pos_y * tilesize) + gridPosY, gameScreen, 5, 3);
 			}
 		}
 	};
@@ -148,7 +146,7 @@ namespace Tmpl8
 			posY = position % 10;
 		}
 		void draw(int tileSize, int gridPosX, int gridPosY, Surface* gameScreen) {
-			renderer.DrawTile(posX * tileSize + gridPosX, posY * tileSize + gridPosY, gameScreen, 6, 3);
+			Renderer::DrawTile(posX * tileSize + gridPosX, posY * tileSize + gridPosY, gameScreen, 6, 3);
 		}
 	};
 
