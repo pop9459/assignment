@@ -15,6 +15,7 @@ namespace Tmpl8
 	void Game::Init() {
 		nextFrame += snakeGame.snakeSpeed * 1000;
 		snakeGame.Init(screen);
+		Renderer::SetScreen(screen);
 	}
 	void Game::Shutdown() {}
 
