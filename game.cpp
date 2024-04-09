@@ -13,9 +13,9 @@ namespace Tmpl8
 	SnakeGame snakeGame;
 
 	void Game::Init() {
+		Renderer::SetScreen(screen); //always init first
 		nextFrame += snakeGame.snakeSpeed * 1000;
-		snakeGame.Init(screen);
-		Renderer::SetScreen(screen);
+		snakeGame.Init();
 	}
 	void Game::Shutdown() {}
 
@@ -34,10 +34,10 @@ namespace Tmpl8
 			snakeGame.snakeOnCherry();
 			if (!snakeGame.SnakeAlive()) {
 				std::cout << "dead\n";
-				snakeGame.Init(screen);
+				snakeGame.Init();
 			}
-			snakeGame.snake.Draw(screen, snakeGame.tileSize);
-			snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY, screen);
+			snakeGame.snake.Draw(snakeGame.tileSize);
+			snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY);
 			//draw play area
 			snakeGame.DrawPlayArea();
 		}

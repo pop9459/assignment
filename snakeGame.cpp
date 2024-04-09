@@ -19,7 +19,7 @@ namespace Tmpl8
 			head = isHead;
 		}
 		
-		void Draw(Surface* gameScreen, int tilesize, int gridPosX, int gridPosY, int dir) {
+		void Draw(int tilesize, int gridPosX, int gridPosY, int dir) {
 			if (head) {
 				int headTile = 0;
 				if (dir == 0) { headTile = 1; }
@@ -63,14 +63,14 @@ namespace Tmpl8
 			length++;
 			body.push_back(SnakePart(body[body.size()-1].pos_x, body[body.size()-1].pos_y));
 		}
-		void Draw(Surface* gameScreen, int tilesize) {
+		void Draw(int tilesize) {
 			for (int i = 0; i < body.size(); i++) {
 				//dont draw snake if outside of playArea
 				if (body[i].pos_x < 0 || body[i].pos_y < 0 ||
 					body[i].pos_x >= gridSize || body[i].pos_y >= gridSize) {
 					continue;
 				}
-				body[i].Draw(gameScreen, tilesize, gridPosX, gridPosY, dir);
+				body[i].Draw(tilesize, gridPosX, gridPosY, dir);
 			}
 		}
 		void Move(int stepSize) {
@@ -145,7 +145,7 @@ namespace Tmpl8
 			posX = position / 10;
 			posY = position % 10;
 		}
-		void draw(int tileSize, int gridPosX, int gridPosY, Surface* gameScreen) {
+		void draw(int tileSize, int gridPosX, int gridPosY) {
 			Renderer::DrawTile(posX * tileSize + gridPosX, posY * tileSize + gridPosY, 6, 3);
 		}
 	};
@@ -156,16 +156,14 @@ namespace Tmpl8
 		float snakeSpeed;
 		Snake snake;
 		Cherry cherry;
-		Surface* gameScreen;
 		SnakeGame() {
 			snakeSpeed = 0.5f; //seconds per step
 			gridSize = 11; //11
 			tileSize = 32;
 			wallThickness = 25;
 		}
-		void Init(Surface* surface ) {
-			gameScreen = surface;
-			gridPosX = (gameScreen->GetWidth() / 2) - ((tileSize * gridSize) / 2);
+		void Init() {
+			gridPosX = (Renderer::GetScreen()->GetWidth() / 2) - ((tileSize * gridSize) / 2);
 			gridPosY = tileSize;
 			snake.Init(gridSize, gridPosX, gridPosY);
 			cherry.newCherry(gridSize, snake.body);
@@ -182,20 +180,20 @@ namespace Tmpl8
 			//walls
 			for (int i = 1; i < wallThickness; i++)
 			{
-				if(i % 3==0) gameScreen->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i - 1, gridPosY + (tileSize * gridSize) + i - 1, 0xff0000);
+				if(i % 3==0) Renderer::GetScreen()->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i - 1, gridPosY + (tileSize * gridSize) + i - 1, 0xff0000);
 			}
 
 			//scorebox
 			int scoreboxHeight = bottomY + wallThickness;
 			for (int i = 0; i < wallThickness/1.5f; i++)
 			{
-				if (i % 3 == 0) gameScreen->Box(gridPosX-i, scoreboxHeight-i, gridPosX + (tileSize * gridSize) + i, bottomY + tileSize*2 + i, 0xffff00);
+				if (i % 3 == 0) Renderer::GetScreen()->Box(gridPosX-i, scoreboxHeight-i, gridPosX + (tileSize * gridSize) + i, bottomY + tileSize*2 + i, 0xffff00);
 			}
 
 			//print score text
 			char scoreBuffer[20]; // Allocate a buffer for the character array
 			std::sprintf(scoreBuffer, "Score: %d", snake.length-4); // Format the integer into the character buffer
-			gameScreen->PrintScaled(scoreBuffer, gridPosX + 10, scoreboxHeight + 10, 0xffffff, 4); //print score to the screen
+			Renderer::GetScreen()->PrintScaled(scoreBuffer, gridPosX + 10, scoreboxHeight + 10, 0xffffff, 4); //print score to the screen
 		}
 		bool SnakeAlive() {	
 			//is snake out of bounds?
@@ -216,7 +214,7 @@ namespace Tmpl8
 		bool snakeOnCherry() {
 			if (snake.pos_x == cherry.posX && snake.pos_y == cherry.posY) {
 				snake.growBody();
-				snake.Draw(gameScreen, tileSize);
+				snake.Draw(tileSize);
 				cherry.newCherry(gridSize, snake.body);
 				return true;
 			}

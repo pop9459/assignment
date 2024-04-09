@@ -13,10 +13,14 @@ namespace Tmpl8
 		Renderer() {
 		};
 
-		static void SetScreen(Surface* screen) {
+		static void SetScreen(Surface* screen) { //always init first
 			gameScreen = screen;
 		}
 		
+		static Surface* GetScreen() { 
+			return gameScreen;
+		}
+
 		static void DrawTile(int screenX, int screenY, int tx, int ty) {
 			Pixel* src = tiles.GetBuffer() + tx * 32 + (ty * 32) * 512;
 			Pixel* dst = gameScreen->GetBuffer() + screenX + screenY * 800;
