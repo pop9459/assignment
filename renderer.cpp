@@ -31,6 +31,10 @@ namespace Tmpl8
 			int padding = 5;
 			int height = baseCharSize * size + padding * 2;
 			int length = (baseCharSize + 1) * size * buttonText.length() + padding * 2;
+			
+			//input coords will be at the center of the button
+			screenX -= length / 2;
+			screenY -= height / 2;
 			for (int i = 0; i < border; i++)
 			{
 				gameScreen->Box(screenX - i, screenY - i, screenX + length + i, screenY + height + i, 0xffffff);
