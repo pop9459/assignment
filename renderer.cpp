@@ -26,8 +26,8 @@ namespace Tmpl8
 		}
 
 		static void DrawButton(int screenX, int screenY, std::string buttonText, int size) {
-			const int baseCharSize = 5;
-			int border = 5;
+			const int baseCharSize = 5; //each char in the base font is a 5x5 grid of pixels - we multiply this with font size to get final size
+			int border = size+1;
 			int padding = 5;
 			int height = baseCharSize * size + padding * 2;
 			int length = (baseCharSize + 1) * size * buttonText.length() + padding * 2;
