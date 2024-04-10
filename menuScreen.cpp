@@ -16,7 +16,7 @@ namespace Tmpl8
 			Button::borderColor = borderColor;
 			const int baseCharSize = 5; //each char in the base font is a 5x5 grid of pixels - we multiply this with font size to get final size
 			border = scale + 1;
-			padding = 5;
+			padding = scale + 1;
 			height = baseCharSize * scale + padding * 2;
 			if (width == 0) { Button::width = (baseCharSize + 1) * scale * text.length() + padding * 2; } //auto calculate width based on text length if not 
 		}
@@ -46,7 +46,7 @@ namespace Tmpl8
 		std::vector<Button> buttons;
 		MenuScreen() {}
 		void Init() {
-			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 50, "Let's GO!", 4));
+			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 150, "Let's GO!", 7));
 		}
 		void DrawMenu(int highlightColor) {
 			for each (Button button in buttons)

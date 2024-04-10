@@ -29,7 +29,7 @@ namespace Tmpl8
 			const int baseCharSize = 5; //each char in the base font is a 5x5 grid of pixels - we multiply this with font size to get final size
 			int posX = screenX - ((baseCharSize + 1) * size * text.length())/2;
 			int posY = screenY - (baseCharSize * size)/2;
-			Renderer::GetScreen()->PrintScaled(text.c_str(), posX, posY, color, size);
+			gameScreen->PrintScaled(text.c_str(), posX, posY, color, size);
 		}
 
 		static void DrawBoxedText(int screenX, int screenY, std::string buttonText, int size, int width, int height, int padding, int border, int textColor = 0xffffff, int borderColor = 0xffffff) {
@@ -41,6 +41,24 @@ namespace Tmpl8
 				gameScreen->Box(screenX - i, screenY - i, screenX + width + i, screenY + height + i, borderColor);
 			}
 			gameScreen->PrintScaled(buttonText.c_str(), screenX + padding, screenY + padding, textColor, size);
+		}
+		
+		static void DrawSpeechBox() {
+			int thickness = 25;
+			int margin = 50;
+
+			int startX = margin;
+			int endX = gameScreen->GetWidth() - margin;
+
+			int startY = gameScreen->GetHeight() - 200;
+			int endY = gameScreen->GetHeight() - margin + thickness;
+
+			for (int i = 1; i < thickness; i++)
+			{
+				if (i % 5 == 0) {
+					gameScreen->Box(startX - i, startY + i, endX + i, endY - i, 0xffffff);
+				}
+			}
 		}
 	};
 };
