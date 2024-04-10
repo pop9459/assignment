@@ -24,6 +24,13 @@ namespace Tmpl8
 				for (int j = 0; j < 32; j++)
 					dst[j] = src[j];
 		}
+		
+		static void DrawCenteredText(int screenX, int screenY, std::string text, int size, int color = 0xffffff) {
+			const int baseCharSize = 5; //each char in the base font is a 5x5 grid of pixels - we multiply this with font size to get final size
+			int posX = screenX - ((baseCharSize + 1) * size * text.length())/2;
+			int posY = screenY - (baseCharSize * size)/2;
+			Renderer::GetScreen()->PrintScaled(text.c_str(), posX, posY, color, size);
+		}
 
 		static void DrawBoxedText(int screenX, int screenY, std::string buttonText, int size, int width, int height, int padding, int border, int textColor = 0xffffff, int borderColor = 0xffffff) {
 			//input coords will be at the center of the button

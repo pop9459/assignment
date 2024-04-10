@@ -7,10 +7,14 @@
 #include "snakeGame.cpp"
 #include "menuScreen.cpp"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 namespace Tmpl8
 {
 	//Initialization
-	static bool showDebugInfo = true; //disable for production release!!!
+	static bool showDebugInfo = false; //disable for production release!!!
 	static const bool enableDebugKeys = true; //disable for production release!!!
 	
 	static float nextFrame = 0;
@@ -62,12 +66,26 @@ namespace Tmpl8
 			laststate = gameState;
 		}
 
+		float pulseSpeed = 0.75f;
+		float timeS;
+		int colorR;
+		int colorG;
+		int colorB;
+		u_int color;
+
 		//game logic
-		switch (gameState) 
+		switch (gameState)
 		{
 		case 0: //menu
-			menuScreen.DrawMenu();
-			if (lMouseDown && menuScreen.buttons[0].mouseOver) gameState = 1;
+			timeS = totalTime / 1000;
+			colorR = std::abs(std::sin(pulseSpeed * timeS)) * 256;
+			colorG = std::abs(std::sin(pulseSpeed * timeS - 2)) * 256;
+			colorB = std::abs(std::sin(pulseSpeed * timeS - 4)) * 256;
+
+			color = (colorR * 256 * 256) + (colorG * 256) + colorB;
+			std::cout << "R: " << colorR << " G: " << colorG << " B: " << colorB << "\n";
+			menuScreen.DrawMenu(color);
+			if (lMouseDown && menuScreen.buttons[0].mouseOver) gameState = 1; //start button
 			break;
 		case 1: //snage minigame
 			//game input
@@ -105,7 +123,7 @@ namespace Tmpl8
 			Renderer::GetScreen()->PrintScaled("0 - show this info", 5 ,20 , 0xffffff, 2);
 			Renderer::GetScreen()->PrintScaled("1-2 - switch game state", 5, 35, 0xffffff, 2);
 			//game state -  what content should be displayed
-			std::sprintf(printBuffer, "GameState: % d", gameState);
+			std::sprintf(printBuffer, "GameState: %d", gameState);
 			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 50, 0xffffff, 2);
 			//mouse pos
 			//std::cout << mouseX << " - " << mouseY << "\n";
