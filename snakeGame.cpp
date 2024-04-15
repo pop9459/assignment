@@ -218,6 +218,7 @@ namespace Tmpl8
 		}
 		bool snakeOnCherry() {
 			if (snake.pos_x == cherry.posX && snake.pos_y == cherry.posY) {
+				snakeSpeed -= 0.01f; //base is 0.05f
 				snake.growBody();
 				snake.Draw(tileSize);
 				cherry.newCherry(gridSize, snake.body);
