@@ -29,6 +29,7 @@ namespace Tmpl8
 
 	SnakeGame snakeGame;
 	MenuScreen menuScreen;
+	EndScreen endScreen;
 	DialogScreen dialogScreen;
 	
 	//vars for main menu
@@ -43,22 +44,33 @@ namespace Tmpl8
 
 	//vars for snake game screen
 	static float nextFrame = 0;
+	static int scoreGoal = 1;
 
 	//########################################## EVENTS ##########################################
 	void Game::Init() {
 		Renderer::SetScreen(screen); //always init first
 		menuScreen.Init();
 		snakeGame.Init();
-		dialogScreen.LoadIntroScript();
+		endScreen.Init();
 	}
 	void Game::Shutdown() {}
 
-	void Game::MouseMove(int x, int y) { 
+	void Game::MouseMove(int x, int y) {
 		mouseX += x;
 		mouseY += y; 
-		for(int i = 0; i < menuScreen.buttons.size(); i++)
-		{
-			menuScreen.buttons[i].MouseOver(mouseX, mouseY);
+
+		//put all mouse colision detections here
+		if (gameState == 0) { //buttons on start screen
+			for(int i = 0; i < menuScreen.buttons.size(); i++)
+			{
+				menuScreen.buttons[i].MouseOver(mouseX, mouseY);
+			}
+		}
+		if (gameState == 3) { //buttons on end screen
+			for (int i = 0; i < endScreen.buttons.size(); i++)
+			{
+				endScreen.buttons[i].MouseOver(mouseX, mouseY);
+			}
 		}
 	}
 	void Game::MouseUp(int button) {
@@ -84,7 +96,7 @@ namespace Tmpl8
 		//game logic
 		switch (gameState)
 		{
-		case 0: //menu ##########################################
+		case 0: //################# menu #################
 			colorR = std::abs(std::sin(pulseSpeed * totalTime)) * 256;
 			colorG = std::abs(std::sin(pulseSpeed * totalTime - 2)) * 256;
 			colorB = std::abs(std::sin(pulseSpeed * totalTime - 4)) * 256;
@@ -93,13 +105,23 @@ namespace Tmpl8
 			menuScreen.DrawMenu(color);
 
 			//if start button is pressed
-			if (lMouseDown && menuScreen.buttons[0].mouseOver) gameState = 1; 
+			if (lMouseDown && menuScreen.buttons[0].mouseOver) {
+				dialogScreen.LoadIntroScript();
+				gameState = 1;
+			}
 			break;
-		case 1: //dialog ##########################################
+		case 1: //################# dialog #################
 			//skip key pressed
 			if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
 				if (skipKeyLastState == FALSE) {
-					if (dialogScreen.NextLine()) gameState++;
+					if (dialogScreen.NextLine()) {
+						if (snakeGame.gameWon) {
+							gameState = 3;
+						}
+						else {
+							gameState = 2;
+						}
+					}
 				}
 				skipKeyLastState = GetAsyncKeyState(skipKey);
 			}
@@ -109,18 +131,23 @@ namespace Tmpl8
 				nextChar += dialogScreen.printSpeed * 1000;
 			}
 			break;
-		case 2: //snage minigame ##########################################
-			//before game start - wait for user input
-			if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
-				if (skipKeyLastState == FALSE) {
-					nextFrame = totalTime;
-					snakeGame.started = true;
-				}
-				skipKeyLastState = GetAsyncKeyState(skipKey);
-			}
+		case 2: //################# snake minigame #################
+			//game in paused state = before start / after hitting score goal
 			if (!snakeGame.started) {
+				if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
+					if (skipKeyLastState == FALSE) {
+						if (snakeGame.gameWon) {
+							dialogScreen.LoadOutroScript();
+							gameState = 1;
+						}
+						nextFrame = totalTime;
+						snakeGame.started = true;
+					}
+					skipKeyLastState = GetAsyncKeyState(skipKey);
+				}
+
 				snakeGame.DrawPlayArea();
-				break;
+				break; //dont proceed with game logic
 			}
 
 			//game input
@@ -135,13 +162,28 @@ namespace Tmpl8
 				
 				snakeGame.snakeOnCherry();
 				if (!snakeGame.SnakeAlive()) {
+					//game failed - reset
 					std::cout << "dead\n";
 					snakeGame.Init();
+				}
+				if (snakeGame.snake.length - 4 >= scoreGoal) {
+					//game won
+					snakeGame.started = false;
+					snakeGame.gameWon = true;
+					std::cout << "win\n";
 				}
 				snakeGame.snake.Draw(snakeGame.tileSize);
 				snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY);
 				
 				snakeGame.DrawPlayArea(); //draw play area
+			}
+			break;
+		case 3: //################# end screen #################
+			endScreen.DrawMenu();
+
+			//if start button is pressed
+			if (lMouseDown && endScreen.buttons[0].mouseOver) {
+				//reset TODO
 			}
 			break;
 		default:

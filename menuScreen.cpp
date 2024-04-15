@@ -49,13 +49,30 @@ namespace Tmpl8
 			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 150, "Let's GO!", 7));
 		}
 		void DrawMenu(int highlightColor) {
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 25, "The game where you", 3);
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 80, "COLLECT", 12, highlightColor);
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 135, "highscores so you can become a", 3);
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 180, "certified", 8);
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 232, "pro gamer", 6);
+
 			for each (Button button in buttons)
 			{
-				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 25, "The game where you", 3);
-				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 80, "COLLECT", 12, highlightColor);
-				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 135, "highscores so you can become a", 3);
-				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 180, "certified", 8);
-				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 232, "pro gamer", 6);
+				button.Draw();
+			}
+		}
+	};
+
+	class EndScreen {
+	public:
+		std::vector<Button> buttons;
+		EndScreen() {}
+		void Init() {
+			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 150, "Restart", 7));
+		}
+		void DrawMenu() {
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 25, "end screen", 3);
+			for each (Button button in buttons)
+			{
 				button.Draw();
 			}
 		}

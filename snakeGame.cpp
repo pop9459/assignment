@@ -149,6 +149,7 @@ namespace Tmpl8
 	class SnakeGame {
 	public:
 		bool started = false;
+		bool gameWon = false;
 		int gridSize, tileSize, wallThickness, gridPosX, gridPosY;
 		float snakeSpeed;
 		Snake snake;
@@ -166,6 +167,11 @@ namespace Tmpl8
 			cherry.newCherry(gridSize, snake.body);
 		}
 		void checkForInput() {
+			if (GetAsyncKeyState(0x43)) {
+				cherry.newCherry(gridSize, snake.body);
+				DrawPlayArea();
+			}
+
 			if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState(0x57)) snake.ChangeDir(0);;
 			if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState(0x44)) snake.ChangeDir(1);;
 			if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState(0x53)) snake.ChangeDir(2);;
@@ -187,8 +193,8 @@ namespace Tmpl8
 				if (i % 3 == 0) Renderer::GetScreen()->Box(gridPosX-i, scoreboxHeight-i, gridPosX + (tileSize * gridSize) + i, bottomY + tileSize*2 + i, 0xffff00);
 			}
 
-			//if game not started dont draw everything
-			if (!started) {
+			//if game not started dont draw everything and prompt user to press skip key
+			if (!started && !gameWon) {
 				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - 100, "Press", 5, 0xffffff);
 				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - 50, "enter", 5, 0xffffff);
 				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2, "to start", 5, 0xffffff);
@@ -199,6 +205,12 @@ namespace Tmpl8
 			char scoreBuffer[20]; // Allocate a buffer for the character array
 			std::sprintf(scoreBuffer, "Score: %d", snake.length-4); // Format the integer into the character buffer
 			Renderer::GetScreen()->PrintScaled(scoreBuffer, gridPosX + 10, scoreboxHeight + 10, 0xffffff, 4); //print score to the screen
+
+			//if game won pring congrats message 
+			if (gameWon) {
+				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2, "you did it!", 5, 0xffffff);
+				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 + 30, "Press enter to continue", 2, 0xffffff);
+			}
 		}
 		bool SnakeAlive() {	
 			//is snake out of bounds?

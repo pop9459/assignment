@@ -23,11 +23,23 @@ namespace Tmpl8
 		DialogScreen() {
 		};
 
-		void LoadIntroScript() {
+		void ResetDialogScreen() {
+			currentLine = 0;
+			currentChar = 0;
 			dialogLines.clear();
+
+		}
+
+		void LoadIntroScript() {
+			ResetDialogScreen();
 			dialogLines.push_back(DialogLine("fero", "fero vravi, fero vravi, fero vravi"));
 			dialogLines.push_back(DialogLine("jozo", "jozo vravi, jozo vravi, jozo vravi"));
 			dialogLines.push_back(DialogLine("fero", "fero vravi, fero vravi, fero vravi"));
+		}
+
+		void LoadOutroScript() {
+			ResetDialogScreen();
+			dialogLines.push_back(DialogLine("fero", "outro text, outro text"));
 		}
 
 		void Draw() {
