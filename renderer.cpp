@@ -43,21 +43,20 @@ namespace Tmpl8
 			gameScreen->PrintScaled(buttonText.c_str(), screenX + padding, screenY + padding, textColor, size);
 		}
 		
-		static void DrawSpeechBox() {
-			int thickness = 25;
-			int margin = 50;
+		static void DrawSpeechBox(int height = 200, int margin = 50, int thickness = 25) {
+			int startX = margin + thickness;
+			int endX = gameScreen->GetWidth() - margin - thickness;
 
-			int startX = margin;
-			int endX = gameScreen->GetWidth() - margin;
+			int startY = gameScreen->GetHeight() - height - thickness;
+			int endY = gameScreen->GetHeight() - margin;
 
-			int startY = gameScreen->GetHeight() - 200;
-			int endY = gameScreen->GetHeight() - margin + thickness;
-
-			for (int i = 1; i < thickness; i++)
+			for (int i = 0; i <= thickness; i++)
 			{
-				if (i % 5 == 0) {
+				if (i % 8 == 0) {
 					gameScreen->Box(startX - i, startY + i, endX + i, endY - i, 0xffffff);
 				}
+				//debug
+				//if(i == 0) gameScreen->Box(startX - i, startY + i, endX + i, endY - i, 0xff0000);
 			}
 		}
 	};

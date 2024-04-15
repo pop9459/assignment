@@ -148,6 +148,7 @@ namespace Tmpl8
 
 	class SnakeGame {
 	public:
+		bool started = false;
 		int gridSize, tileSize, wallThickness, gridPosX, gridPosY;
 		float snakeSpeed;
 		Snake snake;
@@ -170,7 +171,7 @@ namespace Tmpl8
 			if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState(0x53)) snake.ChangeDir(2);;
 			if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState(0x41)) snake.ChangeDir(3);;
 		}
-		void DrawPlayArea() {
+		void DrawPlayArea() {			
 			int bottomY = gridPosY + (gridSize * tileSize) + wallThickness;
 			
 			//walls
@@ -184,6 +185,14 @@ namespace Tmpl8
 			for (int i = 0; i < wallThickness/1.5f; i++)
 			{
 				if (i % 3 == 0) Renderer::GetScreen()->Box(gridPosX-i, scoreboxHeight-i, gridPosX + (tileSize * gridSize) + i, bottomY + tileSize*2 + i, 0xffff00);
+			}
+
+			//if game not started dont draw everything
+			if (!started) {
+				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - 100, "Press", 5, 0xffffff);
+				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - 50, "enter", 5, 0xffffff);
+				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2, "to start", 5, 0xffffff);
+				return;
 			}
 
 			//print score text

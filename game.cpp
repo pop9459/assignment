@@ -6,6 +6,7 @@
 #include "renderer.cpp"
 #include "snakeGame.cpp"
 #include "menuScreen.cpp"
+#include "dialogScreen.cpp"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -13,11 +14,10 @@
 
 namespace Tmpl8
 {
-	//Initialization
+	//########################################## INITIALIZATION ##########################################
 	static bool showDebugInfo = false; //disable for production release!!!
 	static const bool enableDebugKeys = true; //disable for production release!!!
 	
-	static float nextFrame = 0;
 	static float totalTime = 0;
 	
 	static int mouseX = 0;
@@ -29,14 +29,27 @@ namespace Tmpl8
 
 	SnakeGame snakeGame;
 	MenuScreen menuScreen;
+	DialogScreen dialogScreen;
+	
+	//vars for main menu
+	float pulseSpeed = 0.00075f;
+	int colorR, colorG, colorB;
+	u_int color;
 
-	//EVENTS
+	//vars for dialog screen
+	int skipKey = VK_RETURN;
+	bool skipKeyLastState;
+	static float nextChar = 0;
+
+	//vars for snake game screen
+	static float nextFrame = 0;
+
+	//########################################## EVENTS ##########################################
 	void Game::Init() {
 		Renderer::SetScreen(screen); //always init first
 		menuScreen.Init();
 		snakeGame.Init();
-		
-		nextFrame += snakeGame.snakeSpeed * 1000;
+		dialogScreen.LoadIntroScript();
 	}
 	void Game::Shutdown() {}
 
@@ -55,41 +68,61 @@ namespace Tmpl8
 		if (button == VK_LBUTTON) lMouseDown = true;
 	}
 
-	//MAIN
+	//########################################## MAIN ##########################################
 	void Game::Tick(float deltaTime) {
 		//keep track of uptime
 		totalTime += deltaTime;
 		
-		//clear after game state change
+		//this will run when switching screens
 		if (gameState != laststate) {
 			screen->Clear(0);
 			laststate = gameState;
+			nextFrame = totalTime;
+			nextChar = totalTime;
 		}
-
-		//vars for main menu
-		float pulseSpeed = 0.00075f;
-		int colorR, colorG, colorB;
-		u_int color;
 
 		//game logic
 		switch (gameState)
 		{
-		case 0: //menu
+		case 0: //menu ##########################################
 			colorR = std::abs(std::sin(pulseSpeed * totalTime)) * 256;
 			colorG = std::abs(std::sin(pulseSpeed * totalTime - 2)) * 256;
 			colorB = std::abs(std::sin(pulseSpeed * totalTime - 4)) * 256;
 
 			color = (colorR * 256 * 256) + (colorG * 256) + colorB;
 			menuScreen.DrawMenu(color);
-			if (lMouseDown && menuScreen.buttons[0].mouseOver) { //start button
-				gameState = 1;
-				nextFrame = totalTime;
+
+			//if start button is pressed
+			if (lMouseDown && menuScreen.buttons[0].mouseOver) gameState = 1; 
+			break;
+		case 1: //dialog ##########################################
+			//skip key pressed
+			if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
+				if (skipKeyLastState == FALSE) {
+					if (dialogScreen.NextLine()) gameState++;
+				}
+				skipKeyLastState = GetAsyncKeyState(skipKey);
+			}
+			//slow text print
+			if (totalTime >= nextChar) {
+				dialogScreen.NextChar();
+				nextChar += dialogScreen.printSpeed * 1000;
 			}
 			break;
-		case 1: //dialog
-			Renderer::DrawSpeechBox();
-			break;
-		case 2: //snage minigame
+		case 2: //snage minigame ##########################################
+			//before game start - wait for user input
+			if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
+				if (skipKeyLastState == FALSE) {
+					nextFrame = totalTime;
+					snakeGame.started = true;
+				}
+				skipKeyLastState = GetAsyncKeyState(skipKey);
+			}
+			if (!snakeGame.started) {
+				snakeGame.DrawPlayArea();
+				break;
+			}
+
 			//game input
 			snakeGame.checkForInput();
 
@@ -116,7 +149,7 @@ namespace Tmpl8
 			break;
 		}
 
-		//debug utils
+		//########################################## DEBUG UTILS ##########################################
 		if (showDebugInfo) {
 			//info
 			char printBuffer[60]; 
