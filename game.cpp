@@ -24,7 +24,7 @@ namespace Tmpl8
 	static int mouseY = 0;
 	static bool lMouseDown = false;
 
-	static int gameState = 1; //0-menu //1-dialog //2-game
+	static int gameState = 0; //0-menu //1-dialog //2-game
 	static int laststate = 0; 
 
 	SnakeGame snakeGame;
@@ -66,21 +66,18 @@ namespace Tmpl8
 			laststate = gameState;
 		}
 
-		float pulseSpeed = 0.75f;
-		float timeS;
-		int colorR;
-		int colorG;
-		int colorB;
+		//vars for main menu
+		float pulseSpeed = 0.00075f;
+		int colorR, colorG, colorB;
 		u_int color;
 
 		//game logic
 		switch (gameState)
 		{
 		case 0: //menu
-			timeS = totalTime / 1000;
-			colorR = std::abs(std::sin(pulseSpeed * timeS)) * 256;
-			colorG = std::abs(std::sin(pulseSpeed * timeS - 2)) * 256;
-			colorB = std::abs(std::sin(pulseSpeed * timeS - 4)) * 256;
+			colorR = std::abs(std::sin(pulseSpeed * totalTime)) * 256;
+			colorG = std::abs(std::sin(pulseSpeed * totalTime - 2)) * 256;
+			colorB = std::abs(std::sin(pulseSpeed * totalTime - 4)) * 256;
 
 			color = (colorR * 256 * 256) + (colorG * 256) + colorB;
 			menuScreen.DrawMenu(color);
