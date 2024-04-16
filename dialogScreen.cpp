@@ -4,9 +4,15 @@ namespace Tmpl8
 	public:
 		std::string textLine;
 		std::string speakerName;
+		Sprite& characterImage;
+		int side;
 		//TODO: sprite
-		DialogLine(std::string speakerName, std::string textLine) : speakerName(speakerName), textLine(textLine) {};
+		DialogLine(std::string speakerName, Sprite& characterImage, int side, std::string textLine)
+			: speakerName(speakerName), characterImage(characterImage), side(side), textLine(textLine) {};
 	};
+
+	Sprite mainChar(new Surface("assets/mainCharL.png"), 1);
+	Sprite arcadeOwner(new Surface("assets/arcadeOwnerL.png"), 1);
 
 	class DialogScreen
 	{
@@ -21,6 +27,8 @@ namespace Tmpl8
 		float printSpeed = 0.1f; //delay between characters printed
 
 		DialogScreen() {
+			LoadIntroScript();
+			
 		};
 
 		void ResetDialogScreen() {
@@ -32,17 +40,28 @@ namespace Tmpl8
 
 		void LoadIntroScript() {
 			ResetDialogScreen();
-			dialogLines.push_back(DialogLine("fero", "fero vravi, fero vravi, fero vravi"));
-			dialogLines.push_back(DialogLine("jozo", "jozo vravi, jozo vravi, jozo vravi"));
-			dialogLines.push_back(DialogLine("fero", "fero vravi, fero vravi, fero vravi"));
+			dialogLines.push_back(DialogLine("You", mainChar, 1, "fero vravi, fero vravi, fero vravi"));
+			dialogLines.push_back(DialogLine("jozo", arcadeOwner, 0, "jozo vravi, jozo vravi, jozo vravi"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "fero vravi, fero vravi, fero vravi"));
 		}
 
 		void LoadOutroScript() {
 			ResetDialogScreen();
-			dialogLines.push_back(DialogLine("fero", "outro text, outro text"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "outro text, outro text"));
+		}
+
+		void DrawAvatar(Sprite& avatar, int pos) {
+			int posX, posY;
+
+			posY = Renderer::GetScreen()->GetHeight() - boxHeight - boxThickness - avatar.GetHeight();
+			if (pos == 0) posX = boxMargin * 2; //left
+			else posX = Renderer::GetScreen()->GetWidth() - boxMargin * 2 - avatar.GetWidth(); //right
+
+			avatar.Draw(Renderer::GetScreen(), posX, posY);
 		}
 
 		void Draw() {
+			//positional variables
 			textPosX = boxMargin + boxThickness + boxPadding;
 			textPosY = Renderer::GetScreen()->GetHeight() - boxHeight + boxPadding;
 
@@ -53,8 +72,12 @@ namespace Tmpl8
 			Renderer::GetScreen()->PrintScaled(dialogLines[currentLine].textLine.substr(0, currentChar).c_str(), textPosX, textPosY, 0xffffff, 3);
 			if(currentChar >= dialogLines[currentLine].textLine.length()) Renderer::GetScreen()->PrintScaled(infoText.c_str(), infoTextX, infoTextY, 0xffffff, infoTextSize);
 
+
 			//decoration
 			Renderer::DrawSpeechBox(boxHeight, boxMargin, boxThickness);
+
+			//images
+			DrawAvatar(dialogLines[currentLine].characterImage, dialogLines[currentLine].side);
 		}
 
 		void NextChar() {
