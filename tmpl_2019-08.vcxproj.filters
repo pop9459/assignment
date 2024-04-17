@@ -28,8 +28,4 @@
       <Filter>template code</Filter>
     </Text>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="G:\forGame\mainCharR.jpg" />
-    <Image Include="G:\forGame\arcadeOwnerR.jpg" />
-  </ItemGroup>
 </Project>

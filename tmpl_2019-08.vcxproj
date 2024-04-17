@@ -235,10 +235,6 @@
   <ItemGroup>
     <Text Include="_readme.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="G:\forGame\arcadeOwnerR.jpg" />
-    <Image Include="G:\forGame\mainCharR.jpg" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -30,8 +30,8 @@ namespace Tmpl8
 		float printSpeed = 0.025f; //delay between characters printed
 
 		DialogScreen() {
-			LoadIntroScript();
-			
+			//LoadIntroScript();
+			LoadOutroScript();
 		};
 
 		std::vector<std::string> splitStringBy(std::string inputStr, char delimiter) {
@@ -59,7 +59,7 @@ namespace Tmpl8
 			dialogLines.push_back(DialogLine("You", mainChar, 1, "* thinks to himself *"));
 			dialogLines.push_back(DialogLine("You", mainChar, 1, "man, what a day"));
 			dialogLines.push_back(DialogLine("You", mainChar, 1, "I'm so tired, I should stop somewhere"));
-			dialogLines.push_back(DialogLine("You", mainChar, 1, "* looks acros the street *"));
+			dialogLines.push_back(DialogLine("You", mainChar, 1, "* looks across the street *"));
 			dialogLines.push_back(DialogLine("You", mainChar, 1, "hey I think that is the arcade Mark\ntold me to check out"));
 			dialogLines.push_back(DialogLine("You", mainChar, 1, "well why not, I still have some time"));
 			dialogLines.push_back(DialogLine("You", mainChar, 1, "..."));
@@ -123,8 +123,35 @@ namespace Tmpl8
 		void LoadOutroScript() {
 			ResetDialogScreen();
 			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Oh you did it!"));
-			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, ""));
-			dialogLines.push_back(DialogLine("fero", mainChar, 1, "outro text, outro text"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Nice work!"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "..."));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Now, this is a bit awkward..."));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Remember when I told you that you\nmust beat all of my highscores?"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Well I'm going to be honest..."));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "As it happends, I'm still a bit new\nto this arcade business..."));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "And I don't really have any more\ngames here yet"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "..."));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "But I guess that means you did it!"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Congratulations, you are now\nofficially a pro!"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "* gives you the certificate *"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "But I'll tell you the truth buddy..."));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Being a gamer isn't about chasing\nhighscores, trying to beat anyone or\nanything like that..."));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "It's about having fun, being with\nfriends and having a good time"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "So what do you say? Meet me here next\nweek?"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "I should have some more games up and\nrunning by then"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "You know what?"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "That sounds like a great idea,\nI'll stop by with some more friends\nnext time"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "And you are right, I really do feel\na lot more refreshed now!"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "Thank's for the certificate!\nI'm definitely hanging this on the\nwall"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Glad to hear you like it"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Well, I guess this is it for today,\nI still got some work to do here"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "Yea I'll be going then"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "So see you next time"));
+			dialogLines.push_back(DialogLine("Owner", arcadeOwner, 0, "Sounds like a deal!"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "Oh and one more thing"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "When you're going to be ordering new\ngames, dont get the snake"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "The worm is definitely much better"));
+			dialogLines.push_back(DialogLine("fero", mainChar, 1, "* hears a slight giggle as he walks\nout *"));
 		}
 
 		void DrawAvatar(Sprite& avatar, int pos) {
