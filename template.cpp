@@ -73,7 +73,6 @@ void timer::init()
 	QueryPerformanceFrequency(&f);
 	inv_freq = 1000. / double(f.QuadPart);
 }
-
 // Math Stuff
 // ----------------------------------------------------------------------------
 vec3 normalize( const vec3& v ) { return v.normalized(); }
