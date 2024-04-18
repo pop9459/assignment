@@ -69,11 +69,13 @@ namespace Tmpl8
 		std::vector<Button> buttons;
 		EndScreen() {}
 		void Init() {
-			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 50, "Restart", 7));
+			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 110, "fun again", 5, 420));
+			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 50, "fun elsewhere", 5, 420));
 		}
 		void DrawMenu() {
-			certImage.Draw(Renderer::GetScreen(), Renderer::GetScreen()->GetWidth() / 2 - certImage.GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - certImage.GetHeight() / 2);
+			certImage.Draw(Renderer::GetScreen(), Renderer::GetScreen()->GetWidth() / 2 - certImage.GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - certImage.GetHeight() / 2 - 25);
 			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 50, "You did it!", 10);
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 + 75, "an extraordinary player", 2, 0x000000);
 			for each (Button button in buttons)
 			{
 				button.Draw();
