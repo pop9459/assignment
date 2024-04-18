@@ -40,7 +40,7 @@ namespace Tmpl8
 			{
 				gameScreen->Box(screenX - i, screenY - i, screenX + width + i, screenY + height + i, borderColor);
 			}
-			gameScreen->PrintScaled(buttonText.c_str(), screenX + padding, screenY + padding, textColor, size);
+			DrawCenteredText(screenX + width / 2, screenY + height / 2, buttonText.c_str(), size, textColor);
 		}
 		
 		static void DrawSpeechBox(int height = 200, int margin = 50, int thickness = 25) {

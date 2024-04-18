@@ -114,7 +114,7 @@ namespace Tmpl8
 			//skip key pressed
 			if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
 				if (skipKeyLastState == FALSE) {
-					if (dialogScreen.NextLine()) {
+					if (GetAsyncKeyState(VK_CONTROL) || dialogScreen.NextLine()) {
 						if (snakeGame.gameWon) {
 							gameState = 3;
 						}
@@ -183,7 +183,11 @@ namespace Tmpl8
 
 			//if start button is pressed
 			if (lMouseDown && endScreen.buttons[0].mouseOver) {
-				//reset TODO
+				gameState = 0;
+				snakeGame.Reset();
+			}
+			if (lMouseDown && endScreen.buttons[1].mouseOver) {
+				exit(0);
 			}
 			break;
 		default:

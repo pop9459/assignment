@@ -29,8 +29,7 @@ namespace Tmpl8
 		float printSpeed = 0.025f; //delay between characters printed
 
 		DialogScreen() {
-			//LoadIntroScript();
-			LoadOutroScript();
+			LoadIntroScript();
 		};
 
 		std::vector<std::string> splitStringBy(std::string inputStr, char delimiter) {
@@ -212,6 +211,10 @@ namespace Tmpl8
 				return true;
 			}
 			return false;
+		}
+
+		void Skip() {
+
 		}
 	};
 

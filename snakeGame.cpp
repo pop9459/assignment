@@ -166,6 +166,12 @@ namespace Tmpl8
 			snake.Init(gridSize, gridPosX, gridPosY);
 			cherry.newCherry(gridSize, snake.body);
 		}
+		void Reset() {
+			started = false;
+			gameWon = false;
+			snake.Init(gridSize, gridPosX, gridPosY);
+			cherry.newCherry(gridSize, snake.body);
+		}
 		void checkForInput() {
 			if (GetAsyncKeyState(0x43)) {
 				cherry.newCherry(gridSize, snake.body);
