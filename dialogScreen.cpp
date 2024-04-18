@@ -9,7 +9,6 @@ namespace Tmpl8
 		std::string speakerName;
 		Sprite& characterImage;
 		int side;
-		//TODO: sprite
 		DialogLine(std::string speakerName, Sprite& characterImage, int side, std::string textLine)
 			: speakerName(speakerName), characterImage(characterImage), side(side), textLine(textLine) {};
 	};

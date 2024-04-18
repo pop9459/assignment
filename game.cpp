@@ -24,7 +24,7 @@ namespace Tmpl8
 	static int mouseY = 0;
 	static bool lMouseDown = false;
 
-	static int gameState = 0; //0-menu //1-dialog //2-game
+	static int gameState = 3; //0-menu 1-dialog 2-game 3-endScreen
 	static int laststate = 0; 
 
 	SnakeGame snakeGame;
