@@ -73,9 +73,10 @@ namespace Tmpl8
 			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 50, "fun elsewhere", 5, 420));
 		}
 		void DrawMenu() {
-			certImage.Draw(Renderer::GetScreen(), Renderer::GetScreen()->GetWidth() / 2 - certImage.GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - certImage.GetHeight() / 2 - 25);
+			int certImageY = Renderer::GetScreen()->GetHeight() / 2 - certImage.GetHeight() / 2 - 25;
+			certImage.Draw(Renderer::GetScreen(), Renderer::GetScreen()->GetWidth() / 2 - certImage.GetWidth() / 2, certImageY);
 			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, 50, "You did it!", 10);
-			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 + 75, "an extraordinary player", 2, 0x000000);
+			Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, certImageY + 215, "an extraordinary player", 2, 0x000000);
 			for each (Button button in buttons)
 			{
 				button.Draw();
