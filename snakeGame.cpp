@@ -150,6 +150,7 @@ namespace Tmpl8
 	public:
 		bool started = false;
 		bool gameWon = false;
+		bool endless = false;
 		int gridSize, tileSize, wallThickness, gridPosX, gridPosY, scoreGoal;
 		float snakeSpeed;
 		Snake snake;
@@ -174,6 +175,7 @@ namespace Tmpl8
 			cherry.newCherry(gridSize, snake.body);
 		}
 		void setGoal(int goal = 30) {
+			endless = goal == -1; //if -1 is passed set endless mode
 			scoreGoal = goal;
 		}
 		void checkForInput() {

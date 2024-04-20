@@ -170,7 +170,7 @@ namespace Tmpl8
 					std::cout << "dead\n";
 					snakeGame.Init();
 				}
-				if (snakeGame.snake.length - 4 >= snakeGame.scoreGoal) {
+				if (!snakeGame.endless && snakeGame.snake.length - 4 >= snakeGame.scoreGoal) {
 					//game won
 					snakeGame.started = false;
 					snakeGame.gameWon = true;
@@ -191,6 +191,11 @@ namespace Tmpl8
 				snakeGame.Reset();
 			}
 			if (lMouseDown && endScreen.buttons[1].mouseOver) {
+				gameState = 2;
+				snakeGame.Reset();
+				snakeGame.setGoal(-1);
+			}
+			if (lMouseDown && endScreen.buttons[2].mouseOver) {
 				exit(0);
 			}
 			break;

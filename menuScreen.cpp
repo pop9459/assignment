@@ -69,8 +69,9 @@ namespace Tmpl8
 		std::vector<Button> buttons;
 		EndScreen() {}
 		void Init() {
-			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 110, "fun again", 5, 420));
-			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 50, "fun elsewhere", 5, 420));
+			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 120, "fun again", 4, 420));
+			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 75, "more fun", 4, 420));
+			buttons.push_back(Button(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() - 30, "fun elsewhere", 4, 420));
 		}
 		void DrawMenu() {
 			int certImageY = Renderer::GetScreen()->GetHeight() / 2 - certImage.GetHeight() / 2 - 25;
