@@ -150,7 +150,7 @@ namespace Tmpl8
 	public:
 		bool started = false;
 		bool gameWon = false;
-		int gridSize, tileSize, wallThickness, gridPosX, gridPosY;
+		int gridSize, tileSize, wallThickness, gridPosX, gridPosY, scoreGoal;
 		float snakeSpeed;
 		Snake snake;
 		Cherry cherry;
@@ -159,6 +159,7 @@ namespace Tmpl8
 			gridSize = 11; //11
 			tileSize = 32;
 			wallThickness = 25;
+			setGoal();
 		}
 		void Init() {
 			gridPosX = (Renderer::GetScreen()->GetWidth() / 2) - ((tileSize * gridSize) / 2);
@@ -171,6 +172,9 @@ namespace Tmpl8
 			gameWon = false;
 			snake.Init(gridSize, gridPosX, gridPosY);
 			cherry.newCherry(gridSize, snake.body);
+		}
+		void setGoal(int goal = 30) {
+			scoreGoal = goal;
 		}
 		void checkForInput() {
 			if (GetAsyncKeyState(0x43)) {
@@ -185,21 +189,23 @@ namespace Tmpl8
 		}
 		void DrawPlayArea() {			
 			int bottomY = gridPosY + (gridSize * tileSize) + wallThickness;
+			int gridWidth = tileSize * gridSize;
 			
 			//walls
 			for (int i = 1; i < wallThickness; i++)
 			{
-				if(i % 3==0) Renderer::GetScreen()->Box(gridPosX - i, gridPosY - i, gridPosX + (tileSize * gridSize) + i - 1, gridPosY + (tileSize * gridSize) + i - 1, 0xff0000);
+				if(i % 3==0) Renderer::GetScreen()->Box(gridPosX - i, gridPosY - i, gridPosX + gridWidth + i - 1, gridPosY + gridWidth + i - 1, 0xff0000);
 			}
 
 			//scorebox
-			int scoreboxHeight = bottomY + wallThickness;
+			int scoreBoxY = bottomY + wallThickness;
+			int scoreBoxYEnd = scoreBoxY + tileSize;
 			for (int i = 0; i < wallThickness/1.5f; i++)
 			{
-				if (i % 3 == 0) Renderer::GetScreen()->Box(gridPosX-i, scoreboxHeight-i, gridPosX + (tileSize * gridSize) + i, bottomY + tileSize*2 + i, 0xffff00);
+				if (i % 3 == 0) Renderer::GetScreen()->Box(gridPosX-i, scoreBoxY-i, gridPosX + gridWidth + i, scoreBoxYEnd + i, 0xffff00);
 			}
 
-			//if game not started dont draw everything and prompt user to press skip key
+			//if game not started don't draw everything and prompt user to press skip key
 			if (!started && !gameWon) {
 				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - 100, "Press", 5, 0xffffff);
 				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2 - 50, "enter", 5, 0xffffff);
@@ -209,9 +215,10 @@ namespace Tmpl8
 
 			//print score text
 			char scoreBuffer[20]; // Allocate a buffer for the character array
-			std::sprintf(scoreBuffer, "Score: %d", snake.length-4); // Format the integer into the character buffer
-			Renderer::GetScreen()->PrintScaled(scoreBuffer, gridPosX + 10, scoreboxHeight + 10, 0xffffff, 4); //print score to the screen
-
+			std::sprintf(scoreBuffer, "Score: %d / Goal: %d", snake.length-4, scoreGoal); // Format the integer into the character buffer
+			std::string scoretext = scoreBuffer ;
+			//Renderer::GetScreen()->PrintScaled(scoreBuffer, gridPosX + 10, scoreBoxY + 10, 0xffffff, 3); //print score to the screen
+			Renderer::DrawCenteredText(gridPosX + gridWidth / 2, scoreBoxY + (scoreBoxYEnd - scoreBoxY) / 2, scoreBuffer, 3);
 			//if game won pring congrats message 
 			if (gameWon) {
 				Renderer::DrawCenteredText(Renderer::GetScreen()->GetWidth() / 2, Renderer::GetScreen()->GetHeight() / 2, "you did it!", 5, 0xffffff);
