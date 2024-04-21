@@ -23,6 +23,7 @@ namespace Tmpl8
 	static int mouseX = 0;
 	static int mouseY = 0;
 	static bool lMouseDown = false;
+	static bool lMouseHold = false;
 
 	static int gameState = 0; //0-menu 1-dialog 2-game 3-endScreen
 	static int laststate = 0; 
@@ -121,7 +122,7 @@ namespace Tmpl8
 			menuScreen.DrawMenu(color);
 
 			//if start button is pressed
-			if (lMouseDown && menuScreen.buttons[0].mouseOver) {
+			if (lMouseDown && !lMouseHold && menuScreen.buttons[0].mouseOver) {
 				gameState = 1;
 			}
 			break;
@@ -192,16 +193,16 @@ namespace Tmpl8
 			endScreen.DrawMenu();
 
 			//if start button is pressed
-			if (lMouseDown && endScreen.buttons[0].mouseOver) {
+			if (lMouseDown && !lMouseHold && endScreen.buttons[0].mouseOver) {
 				gameState = 0;
 				snakeGame.Reset();
 			}
-			if (lMouseDown && endScreen.buttons[1].mouseOver) {
+			if (lMouseDown && !lMouseHold && endScreen.buttons[1].mouseOver) {
 				gameState = 2;
 				snakeGame.Reset();
 				snakeGame.setGoal(-1);
 			}
-			if (lMouseDown && endScreen.buttons[2].mouseOver) {
+			if (lMouseDown && !lMouseHold && endScreen.buttons[2].mouseOver) {
 				exit(0);
 			}
 			break;
@@ -225,6 +226,8 @@ namespace Tmpl8
 			//mouse pos
 			//std::cout << mouseX << " - " << mouseY << "\n";
 		}
+
+		lMouseHold = lMouseDown;
 
 		if (enableDebugKeys) {
 			if (GetAsyncKeyState(0x30)) {
