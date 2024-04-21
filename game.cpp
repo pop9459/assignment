@@ -196,6 +196,7 @@ namespace Tmpl8
 			if (lMouseDown && !lMouseHold && endScreen.buttons[0].mouseOver) {
 				gameState = 0;
 				snakeGame.Reset();
+				snakeGame.setGoal(30);
 			}
 			if (lMouseDown && !lMouseHold && endScreen.buttons[1].mouseOver) {
 				gameState = 2;
