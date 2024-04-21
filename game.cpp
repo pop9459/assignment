@@ -89,6 +89,7 @@ namespace Tmpl8
 			switch (gameState)
 			{
 			case 1:
+			case 3:
 				nextChar = totalTime;
 				break;
 			case 2:
@@ -173,6 +174,7 @@ namespace Tmpl8
 				if (!snakeGame.SnakeAlive()) {
 					//game failed - reset
 					snakeGame.Restart();
+					std::cout << "dead\n";
 				}
 				if (!snakeGame.endless && snakeGame.snake.length - 4 >= snakeGame.scoreGoal) {
 					//game won
@@ -237,6 +239,10 @@ namespace Tmpl8
 			if (GetAsyncKeyState(0x32)) gameState = 1;
 			if (GetAsyncKeyState(0x33)) gameState = 2;
 			if (GetAsyncKeyState(0x34)) gameState = 3;
+			if (GetAsyncKeyState(0x43)) {
+				snakeGame.cherry.newCherry(snakeGame.gridSize, snakeGame.snake.body);
+				snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY);
+			}
 		}
 	}
 };	

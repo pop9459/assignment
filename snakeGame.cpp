@@ -113,7 +113,7 @@ namespace Tmpl8
 	public:
 		int posX, posY;
 		Cherry() {}
-		void newCherry(int gridSize, std::vector<SnakePart> snakeBody) {
+		void newCherry(int gridSize, std::vector<SnakePart>& snakeBody) {
 			std::random_device rd;
 			std::mt19937 gen(rd());
 
@@ -129,7 +129,7 @@ namespace Tmpl8
 						if (part.pos_x == x && part.pos_y == y) { isEmpty = false; } //exclude space occupied by snake
 						if (posX == x && posY == y) { isEmpty = false; } //exclude previous pos
 					}
-					if (isEmpty) { possibleCords.push_back((x * 10) + y); } //add pos if empty
+					if (isEmpty) { possibleCords.push_back((x * 100) + y); } //add pos if empty
 				}
 			}
 
@@ -138,8 +138,8 @@ namespace Tmpl8
 			int position = possibleCords[dist(gen)];
 
 			//assign new values
-			posX = position / 10;
-			posY = position % 10;
+			posX = position / 100;
+			posY = position % 100;
 		}
 		void draw(int tileSize, int gridPosX, int gridPosY) {
 			Renderer::DrawTile(posX * tileSize + gridPosX, posY * tileSize + gridPosY, 6, 3);
