@@ -131,12 +131,7 @@ namespace Tmpl8
 			if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
 				if (skipKeyLastState == FALSE) {
 					if (GetAsyncKeyState(VK_CONTROL) || dialogScreen.NextLine()) {
-						if (snakeGame.gameWon) {
-							gameState = 3;
-						}
-						else {
-							gameState = 2;
-						}
+						gameState++;
 					}
 				}
 				skipKeyLastState = GetAsyncKeyState(skipKey);
