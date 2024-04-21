@@ -86,15 +86,20 @@ namespace Tmpl8
 		
 		//this will run when switching screens
 		if (gameState != laststate) {
-			screen->Clear(0);
 			switch (gameState)
-			{//TODO
+			{
+			case 1:
+				nextChar = totalTime;
+				break;
+			case 2:
+				nextFrame = totalTime;
+				snakeGame.Reset();
+				break;
 			default:
 				break;
 			}
+			screen->Clear(0);
 			laststate = gameState;
-			nextFrame = totalTime;
-			nextChar = totalTime;
 		}
 
 		//game logic
@@ -167,8 +172,7 @@ namespace Tmpl8
 				snakeGame.snakeOnCherry();
 				if (!snakeGame.SnakeAlive()) {
 					//game failed - reset
-					std::cout << "dead\n";
-					snakeGame.Init();
+					snakeGame.Restart();
 				}
 				if (!snakeGame.endless && snakeGame.snake.length - 4 >= snakeGame.scoreGoal) {
 					//game won
@@ -214,6 +218,8 @@ namespace Tmpl8
 			//game state -  what content should be displayed
 			std::sprintf(printBuffer, "GameState: %d", gameState);
 			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 50, 0xffffff, 2);
+			std::sprintf(printBuffer, "SnakeSpeed: %.2f", snakeGame.snakeSpeed);
+			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 65, 0xffffff, 2);
 			//mouse pos
 			//std::cout << mouseX << " - " << mouseY << "\n";
 		}

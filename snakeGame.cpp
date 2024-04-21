@@ -165,13 +165,16 @@ namespace Tmpl8
 		void Init() {
 			gridPosX = (Renderer::GetScreen()->GetWidth() / 2) - ((tileSize * gridSize) / 2);
 			gridPosY = tileSize;
+		}
+		void Restart() {
+			snakeSpeed = 0.5f;
 			snake.Init(gridSize, gridPosX, gridPosY);
 			cherry.newCherry(gridSize, snake.body);
 		}
 		void Reset() {
+			Restart();
 			started = false;
 			gameWon = false;
-			snake.Init(gridSize, gridPosX, gridPosY);
 			cherry.newCherry(gridSize, snake.body);
 		}
 		void setGoal(int goal = 30) {
@@ -217,7 +220,7 @@ namespace Tmpl8
 
 			//print score text
 			char scoreBuffer[20]; // Allocate a buffer for the character array
-			std::sprintf(scoreBuffer, "Score: %d / Goal: %d", snake.length-4, scoreGoal); // Format the integer into the character buffer
+			std::sprintf(scoreBuffer, "Score: %d/Goal: %d", snake.length-4, scoreGoal); // Format the integer into the character buffer
 			std::string scoretext = scoreBuffer ;
 			//Renderer::GetScreen()->PrintScaled(scoreBuffer, gridPosX + 10, scoreBoxY + 10, 0xffffff, 3); //print score to the screen
 			Renderer::DrawCenteredText(gridPosX + gridWidth / 2, scoreBoxY + (scoreBoxYEnd - scoreBoxY) / 2, scoreBuffer, 3);
