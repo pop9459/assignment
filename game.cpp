@@ -86,21 +86,27 @@ namespace Tmpl8
 		
 		//this will run when switching screens
 		if (gameState != laststate) {
+			screen->Clear(0);
+			laststate = gameState;
 			switch (gameState)
 			{
 			case 1:
-			case 3:
+				dialogScreen.LoadIntroScript();
 				nextChar = totalTime;
+				dialogScreen.Draw();
 				break;
 			case 2:
 				nextFrame = totalTime;
 				snakeGame.Reset();
 				break;
+			case 3:
+				dialogScreen.LoadOutroScript();
+				nextChar = totalTime;
+				dialogScreen.Draw();
+				break;
 			default:
 				break;
 			}
-			screen->Clear(0);
-			laststate = gameState;
 		}
 
 		//game logic
@@ -116,11 +122,11 @@ namespace Tmpl8
 
 			//if start button is pressed
 			if (lMouseDown && menuScreen.buttons[0].mouseOver) {
-				dialogScreen.LoadIntroScript();
 				gameState = 1;
 			}
 			break;
 		case 1: //################# dialog #################
+		case 3:
 			//skip key pressed
 			if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
 				if (skipKeyLastState == FALSE) {
@@ -147,8 +153,7 @@ namespace Tmpl8
 				if (skipKeyLastState != GetAsyncKeyState(skipKey)) {
 					if (skipKeyLastState == FALSE) {
 						if (snakeGame.gameWon) {
-							dialogScreen.LoadOutroScript();
-							gameState = 1;
+							gameState = 3;
 						}
 						nextFrame = totalTime;
 						snakeGame.started = true;
@@ -188,7 +193,7 @@ namespace Tmpl8
 				snakeGame.DrawPlayArea(); //draw play area
 			}
 			break;
-		case 3: //################# end screen #################
+		case 4: //################# end screen #################
 			endScreen.DrawMenu();
 
 			//if start button is pressed
@@ -216,7 +221,7 @@ namespace Tmpl8
 			char printBuffer[60]; 
 			Renderer::GetScreen()->PrintScaled("Debug mode - (numbers not on numpad)", 5, 5, 0xffffff, 2);
 			Renderer::GetScreen()->PrintScaled("0 - show this info", 5 ,20 , 0xffffff, 2);
-			Renderer::GetScreen()->PrintScaled("1-4 - switch game state", 5, 35, 0xffffff, 2);
+			Renderer::GetScreen()->PrintScaled("1-5 - switch game state", 5, 35, 0xffffff, 2);
 			//game state -  what content should be displayed
 			std::sprintf(printBuffer, "GameState: %d", gameState);
 			Renderer::GetScreen()->PrintScaled(printBuffer, 5, 50, 0xffffff, 2);
@@ -239,6 +244,7 @@ namespace Tmpl8
 			if (GetAsyncKeyState(0x32)) gameState = 1;
 			if (GetAsyncKeyState(0x33)) gameState = 2;
 			if (GetAsyncKeyState(0x34)) gameState = 3;
+			if (GetAsyncKeyState(0x35)) gameState = 4;
 			if (GetAsyncKeyState(0x43)) {
 				snakeGame.cherry.newCherry(snakeGame.gridSize, snakeGame.snake.body);
 				snakeGame.cherry.draw(snakeGame.tileSize, snakeGame.gridPosX, snakeGame.gridPosY);
