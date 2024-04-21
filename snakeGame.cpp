@@ -114,6 +114,7 @@ namespace Tmpl8
 		int posX, posY;
 		Cherry() {}
 		void newCherry(int gridSize, std::vector<SnakePart>& snakeBody) {
+			//will only work with grid size smaller than 100 (99max) 
 			std::random_device rd;
 			std::mt19937 gen(rd());
 
