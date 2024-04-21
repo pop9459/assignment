@@ -65,7 +65,7 @@ namespace Tmpl8
 				menuScreen.buttons[i].MouseOver(mouseX, mouseY);
 			}
 		}
-		if (gameState == 3) { //buttons on end screen
+		if (gameState == 4) { //buttons on end screen
 			for (int i = 0; i < endScreen.buttons.size(); i++)
 			{
 				endScreen.buttons[i].MouseOver(mouseX, mouseY);
