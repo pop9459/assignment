@@ -12,6 +12,11 @@ press Enter + CTRL to skip entire dialog
 press Enter to start the game
 use W,A,S,D or arrow keys to steer the snake
 
+########## END SCREEN ##########
+fun again - restart game
+more fun - start minigame in endless mode
+fun elsewhere - exit game
+
 ########## DEBUG TOOLS ##########
 I left this enabled for this version of the game but it can be disabled in game.cpp under the INITIALIZATION section
 not intended for gameplay - only used for reviewing or debuging the game - may end up in unintended behaviour
